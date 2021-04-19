@@ -1,6 +1,6 @@
 [![Docker-Docker-Compose Logo](https://static.codingforentrepreneurs.com/media/projects/docker-and-docker-compose/images/share/Docker__Docker_Compose.jpg)](https://www.codingforentrepreneurs.com/projects/docker-and-docker-compose)
 
-# [Docker-Docker-Compose](https://www.codingforentrepreneurs.com/projects/docker-and-docker-compose)
+# [Docker & Docker Compose](https://www.codingforentrepreneurs.com/projects/docker-and-docker-compose)
 
 
 **Docker** helps us isolate our apps from everything else. It's *almost* as if our apps have their very own computer and I think that's pretty cool.
