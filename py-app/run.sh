@@ -1,3 +1,4 @@
 #!/bin/bash
 
-/usr/local/bin/uvicorn server:app --host 0.0.0.0 --port 8000
+RUN_PORT=${PORT-:8010}
+/usr/local/bin/uvicorn server:app --host 0.0.0.0 --port $RUN_PORT
