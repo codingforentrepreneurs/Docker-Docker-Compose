@@ -16,6 +16,14 @@ services:
             - PORT=8082
         expose: 
             - 8082
+    zemo:
+        build:
+            context: ./php-app
+            dockerfile: Dockerfile.php-app
+        environment:
+            - PORT=8083
+        expose: 
+            - 8083
     nginx:
         build:
             context: ./nginx
@@ -25,3 +33,4 @@ services:
         depends_on: 
             - ironman
             - falcon
+            - zemo
