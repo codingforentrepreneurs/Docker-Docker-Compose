@@ -1,0 +1,14 @@
+FROM node:lts-slim
+
+COPY . /app
+WORKDIR /app
+
+# package.json
+RUN npm install
+
+RUN chmod +x run.sh
+
+# test 
+ENV PORT=9000
+
+CMD ["./run.sh"]
