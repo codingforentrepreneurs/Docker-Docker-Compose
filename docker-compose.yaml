@@ -6,6 +6,9 @@ services:
             dockerfile: Dockerfile.py-app
         environment: 
             - PORT=8081
+        volumes: 
+            - ./data:/app/data
+            - mydatavol:/app/mydatavol
         expose: 
             - 8081
     falcon:
@@ -14,6 +17,8 @@ services:
             dockerfile: Dockerfile.express-app
         environment: 
             - PORT=8082
+        volumes: 
+            - ./data:/app/data
         expose: 
             - 8082
     zemo:
@@ -38,8 +43,15 @@ services:
             dockerfile: Dockerfile.nginx
         ports:
             - 8080:80
+        volumes: 
+            - ./data:/www/static/
         depends_on: 
             - ironman
             - falcon
             - zemo
             - batman
+
+volumes: 
+    data:
+        external: true
+    mydatavol:
