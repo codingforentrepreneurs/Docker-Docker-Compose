@@ -38,3 +38,7 @@ docker volume ls
 ```
 
 Manual Volume Creation
+```
+docker run -v /abs/path/to/local/data/:/where/to/mount/ py-app-1
+```
+> `docker run --name ironman -v /Users/cfe/Dev/docker-dc/data/:/app/data  py-app-1`
