@@ -1,5 +1,13 @@
 version: '3.9'
 services:
+    db:
+        image: postgres
+        restart: always
+        env_file: .env
+        expose: 
+            - 5432
+        volumes: 
+            - postgres_data:/var/lib/postgresql/data/
     ironman:
         build:
             context: ./py-app
@@ -11,6 +19,8 @@ services:
             - mydatavol:/app/mydatavol
         expose: 
             - 8081
+        depends_on: 
+            - db
     falcon:
         build:
             context: ./express-app
@@ -52,6 +62,7 @@ services:
             - batman
 
 volumes: 
+    postgres_data:
     data:
         external: true
     mydatavol:
