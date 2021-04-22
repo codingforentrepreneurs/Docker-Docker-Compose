@@ -23,3 +23,18 @@ Delete all images
 docker rmi -f $(docker images -a -q)
 ```
 Found [here](https://stackoverflow.com/a/44785784)
+
+
+
+
+
+Automated Volume Creation
+```
+docker run -v myvol:/where/to/mount container-image
+```
+> `docker run --name ironman-1 -v ironmanvol:/app/data3 py-app-1`
+```
+docker volume ls 
+```
+
+Manual Volume Creation
