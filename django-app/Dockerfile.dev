@@ -9,4 +9,7 @@ RUN pip install -r requirements.txt
 RUN chmod +x run.sh
 RUN chmod +x run-worker.sh
 
+
+ENV USE_DOTENV_PKG=1
+
 CMD ["./run.sh"]

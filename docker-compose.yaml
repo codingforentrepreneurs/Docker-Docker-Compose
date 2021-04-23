@@ -8,7 +8,7 @@ services:
             - 5432
         volumes: 
             - postgres_data:/var/lib/postgresql/data/
-    redis:
+    myredis:
         image: redis
         restart: always
         expose: 
@@ -30,6 +30,21 @@ services:
         volumes: 
             - ./staticfiles:/app/staticfiles/
         depends_on: 
+            - db
+    loki:
+        build:
+            context: ./django-app
+            dockerfile: Dockerfile.django-app
+        command: ./run-worker.sh
+        environment: 
+            - REDIS_HOST=myredis
+        env_file: 
+            - ./django-app/.env-dj
+            - ./.env-db
+        volumes: 
+            - ./staticfiles:/app/staticfiles/
+        depends_on:
+            - thor
             - db
     ironman:
         build:

@@ -11,8 +11,6 @@ def main():
     if str(USE_DOTENV) == "1":
         base_path = pathlib.Path(__file__).resolve().parent
         dotenv.read_dotenv(base_path / ".env-dev")
-        print('REDIS_PORT', os.environ.get('REDIS_PORT'))
-
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cfehome.settings')
     try:

@@ -1,4 +1,7 @@
 django>=3.2.0,<3.3.0
+django-celery-beat
+django-celery-results
+celery==5.0.5
 django-dotenv
 gunicorn
 psycopg2-binary
