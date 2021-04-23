@@ -1,11 +1,18 @@
 #!/usr/bin/env python
 """Django's command-line utility for administrative tasks."""
 import os
+import dotenv
 import sys
-
+import pathlib
 # django-dotenv
 
 def main():
+    USE_DOTENV = os.environ.get("USE_DOTENV_PKG")
+    if str(USE_DOTENV) == "1":
+        base_path = pathlib.Path(__file__).resolve().parent
+        dotenv.read_dotenv(base_path / ".env-dev")
+        print('REDIS_PORT', os.environ.get('REDIS_PORT'))
+
     """Run administrative tasks."""
     os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'cfehome.settings')
     try:
