@@ -3,7 +3,7 @@ services:
     db:
         image: postgres
         restart: always
-        env_file: .env
+        env_file: .env-db
         expose: 
             - 5432
         volumes: 
@@ -16,6 +16,19 @@ services:
         volumes:
             - redis_data:/data
         entrypoint: redis-server --appendonly yes
+    thor:
+        build:
+            context: ./django-app
+            dockerfile: Dockerfile.django-app
+        environment: 
+            - PORT=8001
+        env_file: 
+            - ./django-app/.env-dj
+            - ./.env-db
+        expose: 
+            - 8001
+        depends_on: 
+            - db
     ironman:
         build:
             context: ./py-app
@@ -64,6 +77,7 @@ services:
         volumes: 
             - ./data:/www/static/
         depends_on: 
+            - thor
             - ironman
             - falcon
             - zemo
