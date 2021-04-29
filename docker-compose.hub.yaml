@@ -1,0 +1,108 @@
+version: '3.9'
+services:
+    db:
+        image: postgres
+        restart: always
+        env_file: .env-db
+        expose: 
+            - 5432
+        volumes: 
+            - postgres_data:/var/lib/postgresql/data/
+    myredis:
+        image: redis
+        restart: always
+        expose: 
+            - 6379
+        volumes:
+            - redis_data:/data
+        entrypoint: redis-server --appendonly yes
+    thor:
+        build:
+            context: ./django-app
+            dockerfile: Dockerfile.django-app
+        environment: 
+            - PORT=8001
+        env_file: 
+            - ./django-app/.env-dj
+            - ./.env-db
+        expose: 
+            - 8001
+        volumes: 
+            - ./staticfiles:/app/staticfiles/
+        depends_on: 
+            - db
+    loki:
+        build:
+            context: ./django-app
+            dockerfile: Dockerfile.django-app
+        command: ./run-worker.sh
+        environment: 
+            - REDIS_HOST=myredis
+        env_file: 
+            - ./django-app/.env-dj
+            - ./.env-db
+        volumes: 
+            - ./staticfiles:/app/staticfiles/
+        depends_on:
+            - thor
+            - db
+    ironman:
+        build:
+            context: ./py-app
+            dockerfile: Dockerfile.py-app
+        environment: 
+            - PORT=8081
+        volumes: 
+            - ./data:/app/data
+            - mydatavol:/app/mydatavol
+        expose: 
+            - 8081
+        depends_on: 
+            - db
+    falcon:
+        build:
+            context: ./express-app
+            dockerfile: Dockerfile.express-app
+        environment: 
+            - PORT=8082
+        volumes: 
+            - ./data:/app/data
+        expose: 
+            - 8082
+    zemo:
+        build:
+            context: ./php-app
+            dockerfile: Dockerfile.php-app
+        environment:
+            - PORT=8083
+        expose: 
+            - 8083
+    batman:
+        image: codingforentrepreneurs/docker-dc-go-app
+        environment:
+            - PORT=8084
+        expose: 
+            - 8084
+    nginx:
+        build:
+            context: ./nginx
+            dockerfile: Dockerfile.nginx
+        ports:
+            - 8080:80
+        volumes: 
+            - ./staticfiles:/www/static/
+        depends_on: 
+            - thor
+            - ironman
+            - falcon
+            - zemo
+            - batman
+
+volumes: 
+    redis_data:
+    postgres_data:
+    data:
+        external: true
+    staticfiles:
+        external: true
+    mydatavol:
